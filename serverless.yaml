@@ -1,0 +1,26 @@
+service: my-nestjs-app
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-1
+  stage: dev
+
+functions:
+  lambda:
+    handler: dist/lambda.handler
+    provisionedConcurrency: 1
+    events:
+      - http:
+          cors: true
+          path: '/'
+          method: any
+      - http:
+          cors: true
+          path: '{proxy+}'
+          method: any
+
+plugins:
+  - serverless-offline
+
+
